@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { uploadVideo } from "../api/api";
 
 function VideoRecording() {
   const videoRef = useRef(null);
@@ -17,17 +18,18 @@ function VideoRecording() {
     recorder.start();
   };
 
-  const stopRecording = () => {
+  const stopRecording = async () => {
     mediaRecorder.stop();
     mediaRecorder.stream.getTracks().forEach((track) => track.stop());
 
     const blob = new Blob(chunks, { type: "video/mp4" });
-    const formData = new FormData();
-    formData.append("video", blob, "recording.mp4");
 
-    fetch("http://localhost:5000/record", { method: "POST", body: formData })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    try {
+      const response = await uploadVideo(blob);
+      console.log("Video uploaded successfully:", response);
+    } catch (error) {
+      console.error("Error uploading video:", error);
+    }
   };
 
   return (

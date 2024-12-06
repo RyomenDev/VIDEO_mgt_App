@@ -4,7 +4,6 @@ import { router } from "./routes";
 function App() {
   return (
     <>
-      <h1>Vite + React</h1>
       <RouterProvider router={router} />
     </>
   );
