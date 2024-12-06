@@ -85,4 +85,4 @@ This application is a full-stack solution for managing videos, including recordi
 ### Installation Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/video-management-app.git
+   git clone https://github.com/RyomenDev/VIDEO_mgt_App.git
