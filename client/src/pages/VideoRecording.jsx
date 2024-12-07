@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { uploadVideo } from "../api/api";
 
 function VideoRecording() {
@@ -14,33 +14,55 @@ function VideoRecording() {
     "Sample Video 2", // Example names
   ]);
   const [isNameUnique, setIsNameUnique] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const [mediaStream, setMediaStream] = useState(null);
+  const [timer, setTimer] = useState(0); // Timer state
 
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoRef.current.srcObject = stream;
+  const startStopRecording = async () => {
+    if (isRecording) {
+      // Stop recording
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+        setIsRecording(false);
+        setIsNameFormVisible(true); // Show video name input form after stopping the recording
+        setMediaRecorder(null); // Reset the media recorder state
+        setIsPaused(false); // Reset pause state
+      }
+    } else {
+      // Start recording
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        videoRef.current.srcObject = stream;
 
-      const recorder = new MediaRecorder(stream);
-      setMediaRecorder(recorder);
+        const recorder = new MediaRecorder(stream);
+        setMediaRecorder(recorder);
+        setMediaStream(stream);
 
-      recorder.ondataavailable = (event) =>
-        setChunks((prev) => [...prev, event.data]);
+        recorder.ondataavailable = (event) =>
+          setChunks((prev) => [...prev, event.data]);
 
-      recorder.start();
-      setIsRecording(true);
-      setUploadStatus(null); // Reset upload status
-    } catch (error) {
-      console.error("Error accessing camera:", error);
+        recorder.start();
+        setIsRecording(true);
+        setUploadStatus(null); // Reset upload status
+        setIsPaused(false); // Reset pause state
+      } catch (error) {
+        console.error("Error accessing camera:", error);
+      }
     }
   };
 
-  const stopRecording = async () => {
+  const pauseResumeRecording = () => {
     if (mediaRecorder) {
-      mediaRecorder.stop();
-      mediaRecorder.stream.getTracks().forEach((track) => track.stop());
-      setIsRecording(false);
-      setIsNameFormVisible(true); // Show video name input form after stopping the recording
-      setMediaRecorder(null); // Reset the media recorder state
+      if (isPaused) {
+        mediaRecorder.resume();
+        setIsPaused(false);
+      } else {
+        mediaRecorder.pause();
+        setIsPaused(true);
+      }
     }
   };
 
@@ -79,8 +101,22 @@ function VideoRecording() {
     }
   };
 
+  // Timer logic: Update every second while recording
+  useEffect(() => {
+    let interval;
+    if (isRecording && !isPaused) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1); // Increase timer by 1 second
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval); // Clean up the interval on unmount or stop recording
+  }, [isRecording, isPaused]);
+
   return (
-    <div className="p-6 bg-gradient-to-b from-blue-100 to-gray-100 min-h-screen flex flex-col items-center">
+    <div className="p-6 bg-gradient-to-b from-slate-100 to-gray-200 min-h-screen flex flex-col items-center">
       {/* Header */}
       <h1 className="text-3xl font-extrabold text-blue-700 mb-6">
         🎥 Video Recorder
@@ -98,30 +134,39 @@ function VideoRecording() {
           className="w-full h-64 bg-gray-200 rounded-t-lg"
         ></video>
         <div
-          className={`flex justify-center items-center p-2 ${
-            isRecording ? "bg-red-500 text-white" : "bg-gray-100 text-gray-500"
+          className={`flex justify-center items-center p-2 mt-2 ${
+            isRecording ? "bg-red-400 text-white" : "bg-gray-100 text-gray-500"
           }`}
         >
           {isRecording ? "Recording in progress..." : "Not Recording"}
         </div>
       </div>
 
+      {/* Timer Display */}
+      {(isRecording || isPaused) && (
+        <div className="mt-4 text-xl font-semibold text-blue-600">
+          Recording Time: {timer}s
+        </div>
+      )}
+
       {/* Buttons */}
       <div className="mt-6 flex space-x-4">
         <button
-          onClick={startRecording}
+          onClick={startStopRecording}
           className="px-6 py-3 bg-green-600 text-white font-bold rounded-lg shadow-lg hover:bg-green-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          disabled={isRecording}
         >
-          Start Recording
+          {isRecording ? "Stop Recording" : "Start Recording"}
         </button>
-        <button
-          onClick={stopRecording}
-          className="px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          disabled={!isRecording}
-        >
-          Stop Recording
-        </button>
+
+        {/* Only show pause/resume when recording */}
+        {isRecording && (
+          <button
+            onClick={pauseResumeRecording}
+            className="px-6 py-3 bg-yellow-600 text-white font-bold rounded-lg shadow-lg hover:bg-yellow-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-yellow-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            {isPaused ? "Resume Recording" : "Pause Recording"}
+          </button>
+        )}
       </div>
 
       {isNameFormVisible && (
@@ -173,7 +218,7 @@ function VideoRecording() {
       {/* Instructions */}
       <p className="mt-6 text-gray-500 text-sm text-center max-w-md">
         Make sure to allow camera access to start recording. After recording,
-        your video will be uploaded automatically.
+        your video will be uploaded.
       </p>
     </div>
   );

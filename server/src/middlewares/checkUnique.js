@@ -11,7 +11,7 @@ const checkUnique = (req, res, next) => {
     return res.status(400).json({ message: "Video name not provided" });
   }
 
-  const videoPath = path.join(__dirname, "../videos", `${videoName}.mp4`);
+  const videoPath = path.join(__dirname, "../../videos", `${videoName}.mp4`);
 
   // Check if the file already exists in the videos directory
   if (fs.existsSync(videoPath)) {

@@ -4,7 +4,9 @@ const fs = require("fs");
 
 const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const videoDir = path.join(__dirname, "../videos");
+    // console.log("multer");
+
+    const videoDir = path.join(__dirname, "../../videos");
     if (!fs.existsSync(videoDir)) {
       fs.mkdirSync(videoDir, { recursive: true }); // Create the directory if it doesn't exist
     }

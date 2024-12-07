@@ -24,7 +24,7 @@ function Dashboard() {
     <div className="p-8 bg-gradient-to-b from-slate-100 to-gray-200 min-h-screen">
       {/* Header Section */}
       <header className="mb-10 text-center">
-        <h1 className="text-5xl font-extrabold text-blue-700 drop-shadow-md">
+        <h1 className="text-5xl font-extrabold text-slate-700 drop-shadow-md">
           Dashboard
         </h1>
         <p className="text-lg text-gray-600 mt-2">
@@ -36,7 +36,7 @@ function Dashboard() {
       <div className="flex justify-center mb-12">
         <Link
           to="/record"
-          className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-full shadow-lg transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300"
+          className="bg-blue-500 hover:bg-blue-700 text-white py-3 px-8 rounded-full shadow-lg transition-all transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300"
         >
           🎥 Record a New Video
         </Link>

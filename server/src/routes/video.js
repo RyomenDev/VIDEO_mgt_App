@@ -13,7 +13,7 @@ router.get("/videos/:videoName", streamVideo);
 
 // POST /record - Save video after checking uniqueness
 router.post("/record", checkUnique, uploadVideo, (req, res) => {
-  //   console.log("uploading");
+//   console.log("uploading");
 
   res.json({
     message: "Video saved successfully!",
