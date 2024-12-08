@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const videoRoutes = require("./src/routes");
 const cors = require("cors");
-require("dotenv");
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +19,7 @@ const allowedOrigins = [
   //   process.env.ALLOWED_ORIGIN1,
   //   process.env.ALLOWED_ORIGIN2,
   "http://localhost:5173",
+  "https://video-mgt-app-5nja.vercel.app",
   // Add other allowed origins here
 ];
 

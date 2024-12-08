@@ -9,7 +9,9 @@ export const getAllVideos = async () => {
   //   console.log("Fetching all videos");
 
   try {
-    const response = await axios.get(`${BASE_URL}/videos`);
+    const response = await axios.get(
+      `https://video-mgt-app.vercel.app/api/videos`
+    );
     // console.log("response", response);
 
     return response.data; // Return the list of videos
