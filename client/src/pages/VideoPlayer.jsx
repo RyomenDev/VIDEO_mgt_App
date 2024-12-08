@@ -27,14 +27,24 @@ function VideoPlayer() {
     fetchVideos();
   }, []);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [selectedVideo]);
+
   // Extract video query parameter from the URL
   useEffect(() => {
+    setLoading(true);
     const params = new URLSearchParams(location.search);
     const video = params.get("video");
     if (video) {
       setSelectedVideo(video);
     }
-    setLoading(false); // Hide loading once the video is set
+    setLoading(false);
+    // console.log("new song");
   }, [location.search]);
 
   // Toggle Play/Pause
@@ -75,13 +85,16 @@ function VideoPlayer() {
   // Handle video change from dropdown
   const handleVideoSelect = (e) => {
     const selected = e.target.value;
-    setSelectedVideo(selected);
-    navigate(`/play?video=${encodeURIComponent(selected)}`);
-    const params = new URLSearchParams(location.search);
-    const video = params.get("video");
-    if (video) {
-      setSelectedVideo(video);
+    if (selected) {
+      setSelectedVideo(selected);
     }
+    // console.log(selected, selectedVideo);
+    navigate(`/play?video=${encodeURIComponent(selected)}`);
+    // const params = new URLSearchParams(location.search);
+    // const video = params.get("video");
+    // if (video) {
+    //   setSelectedVideo(video);
+    // }
     setLoading(false);
   };
 
