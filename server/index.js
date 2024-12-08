@@ -14,20 +14,12 @@ const allowedOrigins = [
   process.env.ALLOWED_ORIGIN2,
 ];
 
-// CORS options configuration
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true); // Allow the request
-    } else {
-      callback(new Error("CORS policy: Access denied"), false);
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allow specified HTTP methods
-  credentials: true, // Allow sending cookies or authorization headers
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://video-mgt-app-5nja.vercel.app"],
+    credentials: true,
+  })
+);
 // app.use(cors("*"));
 // app.use(cors());
 
