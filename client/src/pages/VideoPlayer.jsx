@@ -27,14 +27,6 @@ function VideoPlayer() {
     fetchVideos();
   }, []);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [selectedVideo]);
-
   // Extract video query parameter from the URL
   useEffect(() => {
     setLoading(true);
@@ -46,6 +38,27 @@ function VideoPlayer() {
     setLoading(false);
     // console.log("new song");
   }, [location.search]);
+
+  //   useEffect(() => {
+  //     if (videoRef.current) {
+  //       videoRef.current.load();
+  //       videoRef.current.play();
+  //       setIsPlaying(true);
+  //     }
+  //   }, [selectedVideo]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => {
+          console.warn("Autoplay failed. Waiting for user interaction:", err);
+          setIsPlaying(false);
+        });
+    }
+  }, [selectedVideo]);
 
   // Toggle Play/Pause
   const handlePlayPause = () => {
@@ -139,7 +152,7 @@ function VideoPlayer() {
           <video
             ref={videoRef}
             controls
-            autoPlay // Video will autoplay as soon as it is loaded
+            // autoPlay // Video will autoplay as soon as it is loaded
             className="w-full rounded-lg shadow-lg border border-gray-300 mb-4"
             preload="metadata"
             poster="/placeholder-image.jpg"
