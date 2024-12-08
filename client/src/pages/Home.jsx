@@ -26,6 +26,7 @@ const Home = () => {
           <li>Stream and watch recorded videos</li>
           <li>Easy-to-use interface for managing videos</li>
           <li>Responsive design for all devices</li>
+          <li>Login to see more features</li>
         </ul>
       </div>
 
