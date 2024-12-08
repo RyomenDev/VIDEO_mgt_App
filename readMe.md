@@ -1,6 +1,6 @@
-#### Before moving to the link, kindly note that this will not work as expected, as the media files are uploaded to localStorage instead of a cloud storage service (for the reasons mentioned below).
+### Before moving to the link, kindly note that this will not work as expected, as the media files are uploaded to localStorage instead of a cloud storage service (for the reasons mentioned below).
 
-#### If you still wish to proceed, please clone the project and run it on a local server.
+### If you still wish to proceed, please clone the project and run it on a local server.
 # Full-Stack Video Management Application
 
 ## Project Description
