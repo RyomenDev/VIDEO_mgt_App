@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { uploadVideo } from "../api/api";
+import { uploadVideo } from "../api";
 
 function VideoRecording() {
   const videoRef = useRef(null);
@@ -11,7 +11,6 @@ function VideoRecording() {
   const [isNameFormVisible, setIsNameFormVisible] = useState(false);
   const [existingVideoNames, setExistingVideoNames] = useState([
     "Sample Video 1",
-    "Sample Video 2", // Example names
   ]);
   const [isNameUnique, setIsNameUnique] = useState(true);
   const [isPaused, setIsPaused] = useState(false);

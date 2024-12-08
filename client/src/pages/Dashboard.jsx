@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllVideos } from "../api/api";
+import { getAllVideos } from "../api";
 import VideoCard from "../components/VideoCard";
 
 function Dashboard() {

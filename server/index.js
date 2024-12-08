@@ -1,6 +1,7 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const path = require("path");
-const videoRoutes = require("./src/routes/video");
+const videoRoutes = require("./src/routes");
 const cors = require("cors");
 
 const app = express();
@@ -8,6 +9,9 @@ const PORT = 5000;
 
 // CORS Middleware
 app.use(cors());
+
+// Middleware to parse JSON request bodies
+app.use(bodyParser.json());
 
 // Middleware for parsing JSON and URL-encoded data
 app.use(express.json());

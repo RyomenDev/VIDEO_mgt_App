@@ -6,7 +6,7 @@ import {
 import Layout from "../Layout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import Signup from "..//pages/Signup";
+import Signup from "../pages/Signup";
 // import Logout from "..//pages/Logout";
 import Dashboard from "../pages/Dashboard";
 import VideoRecording from "../pages/VideoRecording";

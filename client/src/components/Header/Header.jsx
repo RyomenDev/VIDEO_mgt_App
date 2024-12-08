@@ -1,15 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import LogoutBtn from "./LogoutBtn";
 import logo from "../../assets/icon.png";
 
 function Header() {
   const navigate = useNavigate();
 
-  // Get authentication status from Redux store
+  // Get authentication status and user data from Redux store
   const authStatus = useSelector((state) => state.auth.status);
+  const userData = useSelector((state) => state.auth.userData);
+  const userName = userData?.name;
 
-  // Navigation items definition
+  // Navigation items definition, including Logout button if authenticated
   const navItems = [
     {
       name: "Home",
@@ -32,9 +35,15 @@ function Header() {
       active: authStatus,
     },
     {
-      name: "Add Post",
-      slug: "/add-post",
+      name: "Add Video",
+      slug: "/record",
       active: authStatus,
+    },
+    {
+      name: "Logout",
+      slug: "/logout",
+      active: authStatus,
+      component: <LogoutBtn />,
     },
   ];
 
@@ -54,6 +63,11 @@ function Header() {
             <span className="text-2xl font-semibold">V-mgt</span>
           </Link>
         </div>
+
+        {/* User Greeting */}
+        {authStatus && userName && (
+          <h1 className="text-lg font-medium">{`Welcome, ${userName}!`}</h1>
+        )}
 
         {/* Hamburger Icon for Mobile */}
         <div className="lg:hidden">
@@ -90,12 +104,18 @@ function Header() {
             (item) =>
               item.active && (
                 <li key={item.name}>
-                  <button
-                    onClick={() => navigate(item.slug)}
-                    className="px-6 py-2 rounded-lg text-lg font-medium hover:bg-blue-500 hover:text-white transition duration-300"
-                  >
-                    {item.name}
-                  </button>
+                  {item.component ? (
+                    <div className="px-6 py-2 rounded-lg text-lg font-medium hover:bg-blue-500 hover:text-white transition duration-300">
+                      {item.component}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => navigate(item.slug)}
+                      className="px-6 py-2 rounded-lg text-lg font-medium hover:bg-blue-500 hover:text-white transition duration-300"
+                    >
+                      {item.name}
+                    </button>
+                  )}
                 </li>
               )
           )}
