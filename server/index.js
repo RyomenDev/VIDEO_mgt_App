@@ -8,19 +8,11 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// const allowedOrigins1 = process.env.ALLOWED_ORIGIN1;
-// const allowedOrigins2 = process.env.ALLOWED_ORIGIN2;
-// // console.log(allowedOrigins.split(","));
-// console.log(allowedOrigins1, allowedOrigins2);
-
 // CORS Middleware
 // app.use(cors("*"));
 const allowedOrigins = [
-  //   process.env.ALLOWED_ORIGIN1,
-  //   process.env.ALLOWED_ORIGIN2,
-  "http://localhost:5173",
-  "https://video-mgt-app-5nja.vercel.app",
-  // Add other allowed origins here
+  process.env.ALLOWED_ORIGIN1,
+  process.env.ALLOWED_ORIGIN2,
 ];
 
 const corsOptions = {
@@ -37,7 +29,8 @@ const corsOptions = {
 };
 
 // Apply CORS middleware
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
