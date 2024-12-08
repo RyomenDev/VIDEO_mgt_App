@@ -1,7 +1,9 @@
+import conf from "../conf/conf.js";
 import axios from "axios";
 
-// const BASE_URL = "/api";
-const BASE_URL = "http://localhost:5000/api";
+// Set up base URL for the API
+// const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = conf.server_url;
 
 export const getAllVideos = async () => {
   //   console.log("Fetching all videos");

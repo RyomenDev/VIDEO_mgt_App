@@ -3,9 +3,10 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const videoRoutes = require("./src/routes");
 const cors = require("cors");
+require("dotenv");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // CORS Middleware
 app.use(cors());
@@ -25,5 +26,5 @@ app.use("/api", videoRoutes);
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on ${PORT}`);
 });
