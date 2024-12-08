@@ -1,6 +1,20 @@
 ## Before moving to the link, kindly note that this will not work as expected, as the media files are uploaded to localStorage instead of a cloud storage service (for the reasons mentioned below in the last).
 
 ## If you still wish to proceed, please clone the project and run it on a local server.
+
+### make ensure to change proxy in vite.config.js
+```
+ server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000", // Backend server URL
+        // target: "https://video-mgt-app.vercel.app/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""), // Removes '/api' prefix from the request
+      },
+    },
+  },
+```
 # Full-Stack Video Management Application
 
 ## Project Description
