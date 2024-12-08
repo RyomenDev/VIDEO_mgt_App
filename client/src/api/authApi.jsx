@@ -11,6 +11,7 @@ export const signUp = async (data) => {
         "Content-Type": "application/json",
       },
     });
+    // console.log("response", response.data);
 
     return response;
   } catch (error) {

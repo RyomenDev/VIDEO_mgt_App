@@ -19,7 +19,7 @@ function Login() {
     setError(""); // Reset error before each login attempt
     try {
       const response = await loginUser(data);
-      console.log(response);
+      //   console.log(response);
 
       if (response.data.success) {
         const { user, token } = response.data;

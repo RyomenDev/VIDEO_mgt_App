@@ -16,7 +16,7 @@ function Signup() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onChange", // Enables real-time validation
+    mode: "onChange",
   });
 
   const handleCreateAccount = async (data) => {
@@ -25,8 +25,8 @@ function Signup() {
     setError("");
     try {
       const response = await createAccountAPI(data);
-      if (response.success) {
-        const userData = response.user;
+      if (response.data.success) {
+        const userData = response.data.user;
         if (userData) {
           dispatch(login(userData));
           navigate("/");

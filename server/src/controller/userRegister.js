@@ -1,8 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 
-// console.log("userRegister");
-
 // Mock database file (where users are stored)
 const DATABASE_FILE = path.join(__dirname, "../../users.json");
 
@@ -40,6 +38,7 @@ const writeDatabase = (data) => {
 
 // Function to handle user registration
 const registerUser = (req, res) => {
+  console.log("Registering user...");
   const { name, email, password } = req.body;
 
   // Basic validation (check if required fields are present)
@@ -62,7 +61,7 @@ const registerUser = (req, res) => {
     });
   }
 
-  // Create a new user object
+  // Create a new user object after validating email
   const newUser = { name, email, password };
 
   // Add the new user to the users array
