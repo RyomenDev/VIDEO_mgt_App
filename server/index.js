@@ -9,28 +9,27 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // CORS Middleware
-// app.use(cors("*"));
 const allowedOrigins = [
   process.env.ALLOWED_ORIGIN1,
   process.env.ALLOWED_ORIGIN2,
 ];
 
+// CORS options configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
     } else {
       callback(new Error("CORS policy: Access denied"), false);
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE"], // specify allowed methods
-  credentials: true, // if you need to send cookies or authorization headers
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allow specified HTTP methods
+  credentials: true, // Allow sending cookies or authorization headers
 };
 
-// Apply CORS middleware
-// app.use(cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
+// app.use(cors("*"));
+// app.use(cors());
 
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
