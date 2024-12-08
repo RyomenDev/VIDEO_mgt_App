@@ -11,13 +11,11 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins1 = process.env.ALLOWED_ORIGIN1;
 const allowedOrigins2 = process.env.ALLOWED_ORIGIN2;
 // console.log(allowedOrigins.split(","));
+console.log(allowedOrigins1, allowedOrigins2);
 
 // CORS Middleware
 app.use(
-  cors({
-    origin: [allowedOrigins1, allowedOrigins2],
-    credentials: true,
-  })
+  cors('*')
 );
 
 // Middleware to parse JSON request bodies
