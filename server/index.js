@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static video files (adjust the path if necessary)
 app.use("/videos", express.static(path.join(__dirname, "videos")));
+app.use(express.static(path.join(__dirname, 'build'))); // Serve static files from build folder
 
 // Use video-related routes under /api
 app.use("/api", videoRoutes);
