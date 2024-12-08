@@ -31,6 +31,11 @@ function VideoRecording() {
     } else {
       // Start recording
       try {
+        // Clear any previous chunks before starting a new recording
+        setChunks([]);
+        setVideoName(""); // Reset video name
+        setIsNameFormVisible(false); // Hide name input form initially
+
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
@@ -192,7 +197,18 @@ function VideoRecording() {
               Submit
             </button>
             <button
-              onClick={() => setIsNameFormVisible(false)}
+              onClick={() => {
+                // Clear the state when canceling
+                setIsNameFormVisible(false);
+                setChunks([]); // Clear video chunks
+                setVideoName(""); // Clear video name
+                setTimer(0); // Reset timer
+                setIsPaused(false); // Reset pause state
+                setIsRecording(false); // Stop recording if needed
+                if (mediaStream) {
+                  mediaStream.getTracks().forEach((track) => track.stop());
+                }
+              }}
               className="px-6 py-3 bg-gray-600 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300"
             >
               Cancel
