@@ -16,8 +16,9 @@ const PORT = process.env.PORT || 5000;
 // CORS Middleware
 // app.use(cors("*"));
 const allowedOrigins = [
-  process.env.ALLOWED_ORIGIN1,
-  process.env.ALLOWED_ORIGIN2,
+  //   process.env.ALLOWED_ORIGIN1,
+  //   process.env.ALLOWED_ORIGIN2,
+  "http://localhost:5173",
   // Add other allowed origins here
 ];
 
@@ -36,7 +37,6 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
-
 
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
