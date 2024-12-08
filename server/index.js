@@ -8,13 +8,14 @@ require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = process.env.ALLOWED_ORIGIN;
-console.log(allowedOrigins.split(","));
+const allowedOrigins1 = process.env.ALLOWED_ORIGIN1;
+const allowedOrigins2 = process.env.ALLOWED_ORIGIN2;
+// console.log(allowedOrigins.split(","));
 
 // CORS Middleware
 app.use(
   cors({
-    origin: allowedOrigins.split(","),
+    origin: [allowedOrigins1, allowedOrigins2],
     credentials: true,
   })
 );
