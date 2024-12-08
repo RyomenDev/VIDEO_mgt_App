@@ -8,8 +8,16 @@ require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = process.env.ALLOWED_ORIGIN;
+console.log(allowedOrigins.split(","));
+
 // CORS Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: allowedOrigins.split(","),
+    credentials: true,
+  })
+);
 
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
